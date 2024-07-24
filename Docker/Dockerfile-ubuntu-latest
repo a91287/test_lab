@@ -1,0 +1,21 @@
+# Use the official Ubuntu image as the base image
+FROM ubuntu:latest
+
+# Update the package list and install OpenSSH server
+RUN apt-get update && apt-get install -y openssh-server
+
+# Create the directory for the SSH daemon
+RUN mkdir /var/run/sshd
+
+# Create the SSH user with the password 'linux'
+RUN useradd -m -s /bin/bash linux && echo 'linux:linux' | chpasswd
+
+# Allow root login and password authentication
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Expose port 22 for SSH
+EXPOSE 22
+
+# Start the SSH service
+CMD ["/usr/sbin/sshd", "-D"]
