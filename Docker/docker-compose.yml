@@ -17,3 +17,29 @@ services:
       - "3223:22"
     container_name: my-ssh-server-2
 
+  ubuntu-ssh-server-3:
+    build:
+      context: .
+      dockerfile: Dockerfile-ubuntu-latest
+    ports:
+      - "3224:22"
+    container_name: my-ssh-server-3
+  
+  proxy:
+    image: nginx
+    volumes:
+      - ./templates:/etc/nginx/templates
+      - ./cfg/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+    environment:
+      - NGINX_HOST=foobar.com
+      - NGINX_PORT=80
+      - "NODES=web1:80 web2:80"
+
+  web1:
+    image: strm/helloworld-http
+    ports:
+      - "8081:80"
+  web2:
+    image: strm/helloworld-http
