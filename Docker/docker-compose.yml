@@ -2,25 +2,19 @@ version: '3.8'
 
 services:
   ubuntu-ssh-server-1:
-    build:
-      context: .
-      dockerfile: Dockerfile-ubuntu-latest
+    image: dockerfile-ubuntu-latest:latest
     ports:
       - "3222:22"
     container_name: my-ssh-server
 
   ubuntu-ssh-server-2:
-    build:
-      context: .
-      dockerfile: Dockerfile-ubuntu-latest
+    image: dockerfile-ubuntu-latest:latest
     ports:
       - "3223:22"
     container_name: my-ssh-server-2
 
   ubuntu-ssh-server-3:
-    build:
-      context: .
-      dockerfile: Dockerfile-ubuntu-latest
+    image: dockerfile-ubuntu-latest:latest
     ports:
       - "3224:22"
     container_name: my-ssh-server-3
